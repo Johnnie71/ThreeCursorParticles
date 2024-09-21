@@ -8,7 +8,19 @@ void main()
 { 
     // Displacement
     vec3 newPosition = position;
+    float DisplacementIntensity = texture(uDisplacementTexture, uv).r;
+
+    vec3 displacement = vec3(
+        0.0,
+        0.0,
+        1.0
+    );
+
+    displacement *= DisplacementIntensity;
+    displacement *= 3.0;
     
+    newPosition += displacement;
+
     // Final position
     vec4 modelPosition = modelMatrix * vec4(newPosition, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
