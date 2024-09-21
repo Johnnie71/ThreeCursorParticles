@@ -90,7 +90,7 @@ displacement.glowImage.src = './glow.png'
 // Interactive plane
 displacement.interactivePlane = new THREE.Mesh(
     new THREE.PlaneGeometry(10, 10),
-    new THREE.MeshBasicMaterial({ color: 'red'})
+    new THREE.MeshBasicMaterial({ color: 'red', side: THREE.DoubleSide })
 )
 displacement.interactivePlane.visible = false
 scene.add(displacement.interactivePlane)
@@ -116,6 +116,8 @@ displacement.texture = new THREE.CanvasTexture(displacement.canvas)
  * Particles
  */
 const particlesGeometry = new THREE.PlaneGeometry(10, 10, 128, 128)
+particlesGeometry.setIndex(null)
+particlesGeometry.deleteAttribute('normal')
 
 const intensityArray = new Float32Array(particlesGeometry.attributes.position.count)
 const anglesArray = new Float32Array(particlesGeometry.attributes.position.count)
@@ -136,7 +138,8 @@ const particlesMaterial = new THREE.ShaderMaterial({
         uResolution: new THREE.Uniform(new THREE.Vector2(sizes.width * sizes.pixelRatio, sizes.height * sizes.pixelRatio)),
         uPictureTexture: new THREE.Uniform(textureLoader.load('./picture-1.png')),
         uDisplacementTexture: new THREE.Uniform(displacement.texture)
-    }
+    },
+    // blending: THREE.AdditiveBlending
 })
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
