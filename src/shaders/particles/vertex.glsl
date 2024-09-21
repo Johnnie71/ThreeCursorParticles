@@ -2,6 +2,7 @@ uniform vec2 uResolution;
 uniform sampler2D uPictureTexture;
 uniform sampler2D uDisplacementTexture;
 attribute float aIntensity;
+attribute float aAngle;
 
 varying vec3 vColor;
 
@@ -12,8 +13,8 @@ void main()
     float DisplacementIntensity = texture(uDisplacementTexture, uv).r;
 
     vec3 displacement = vec3(
-        0.0,
-        0.0,
+       cos(aAngle),
+        sin(aAngle),
         1.0
     );
 
